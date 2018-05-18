@@ -1,5 +1,5 @@
 package com.jk.pojo;
-
+/*会员*/
 public class Member  {
     private  Integer memberid;
     private  String membernum;
