@@ -12,5 +12,8 @@
 </head>
 <body>
 <a href="<%=request.getContextPath()%>/wt/toMemberShow"> tiao</a>
+<a href="<%=request.getContextPath()%>/account/show.jsp"> tiao2</a>
+<a href="<%=request.getContextPath()%>/tree.jsp"> wxxtiao</a>
+<a href="<%=request.getContextPath()%>/tree2.jsp"> xytiao</a>
 </body>
 </html>

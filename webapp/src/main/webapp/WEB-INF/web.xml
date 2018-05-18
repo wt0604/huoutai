@@ -39,7 +39,7 @@
     <!--修改默认加载的主spring配置文件其他配置文件-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring-mybatis.xml
+        <param-value>classpath:spring-*.xml
         </param-value>
     </context-param>
     <!-- 验证码 -->
@@ -59,6 +59,6 @@
   <display-name>ssm-nba-manage</display-name>
   <welcome-file-list>
     
-    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>deng.jsp</welcome-file>
   </welcome-file-list>
 </web-app>

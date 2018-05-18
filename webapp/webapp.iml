@@ -30,6 +30,12 @@
     <orderEntry type="module" module-name="util" />
     <orderEntry type="module" module-name="parent" />
     <orderEntry type="module" module-name="wt" />
+    <orderEntry type="module" module-name="xy" />
+    <orderEntry type="module" module-name="wxx" />
+    <orderEntry type="module" module-name="zxt" />
+    <orderEntry type="module" module-name="zb" />
+    <orderEntry type="module" module-name="hxf" />
+    <orderEntry type="module" module-name="gzw" />
     <orderEntry type="library" name="Maven: org.springframework:spring-test:4.0.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:4.0.2.RELEASE" level="project" />

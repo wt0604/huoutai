@@ -3,11 +3,16 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ThreeTeam2.iml" filepath="$PROJECT_DIR$/ThreeTeam2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/parent/gzw/gzw.iml" filepath="$PROJECT_DIR$/parent/gzw/gzw.iml" />
+      <module fileurl="file://$PROJECT_DIR$/parent/hxf/hxf.iml" filepath="$PROJECT_DIR$/parent/hxf/hxf.iml" />
       <module fileurl="file://$PROJECT_DIR$/parent/parent.iml" filepath="$PROJECT_DIR$/parent/parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/util.iml" filepath="$PROJECT_DIR$/util/util.iml" />
       <module fileurl="file://$PROJECT_DIR$/webapp/webapp.iml" filepath="$PROJECT_DIR$/webapp/webapp.iml" />
       <module fileurl="file://$PROJECT_DIR$/parent/wt/wt.iml" filepath="$PROJECT_DIR$/parent/wt/wt.iml" />
-      <module fileurl="file://$PROJECT_DIR$/parent/xt/xt.iml" filepath="$PROJECT_DIR$/parent/xt/xt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/parent/wxx/wxx.iml" filepath="$PROJECT_DIR$/parent/wxx/wxx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/parent/xy/xy.iml" filepath="$PROJECT_DIR$/parent/xy/xy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/parent/zb/zb.iml" filepath="$PROJECT_DIR$/parent/zb/zb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/parent/zxt/zxt.iml" filepath="$PROJECT_DIR$/parent/zxt/zxt.iml" />
     </modules>
   </component>
 </project>

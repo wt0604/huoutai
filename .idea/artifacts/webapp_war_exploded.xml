@@ -16,6 +16,24 @@
           <element id="archive" name="wt-1.0-SNAPSHOT.jar">
             <element id="module-output" name="wt" />
           </element>
+          <element id="archive" name="xy-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="xy" />
+          </element>
+          <element id="archive" name="wxx-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="wxx" />
+          </element>
+          <element id="archive" name="zxt-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="zxt" />
+          </element>
+          <element id="archive" name="zb-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="zb" />
+          </element>
+          <element id="archive" name="hxf-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="hxf" />
+          </element>
+          <element id="archive" name="gzw-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="gzw" />
+          </element>
           <element id="library" level="project" name="Maven: org.springframework:spring-test:4.0.2.RELEASE" />
           <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.5" />
           <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:4.0.2.RELEASE" />

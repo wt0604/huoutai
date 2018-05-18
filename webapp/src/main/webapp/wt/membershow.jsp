@@ -1,23 +1,25 @@
-
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<% String path = request.getContextPath(); %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<% String path = request.getContextPath(); %>
 <head>
     <title>Insert title here</title>
+    <%--引入easyui的js文件begin--%>
+    <link href="<%=path %>/js/css/video-js.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="<%=path %>/js/js/themes/insdep/easyui.css"/>
+    <link rel="stylesheet" href="<%=path %>/js/js/themes/insdep/easyui_animation.css"/>
+    <link rel="stylesheet" href="<%=path %>/js/js/themes/insdep/insdep_theme_default.css">
+    <link rel="stylesheet" href="<%=path %>/js/js/themes/insdep/icon.css">
+    <script type="text/javascript" src="<%=path %>/js/js/jquery.min.js"></script>
+    <script type="text/javascript" src="<%=path %>/js/js/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="<%=path %>/js/js/jquery.easyui-1.5.1.min.js"></script>
+    <script type="text/javascript" src="<%=path %>/js/js/themes/insdep/jquery.insdep-extend.min.js"></script>
+
+    <%--end--%>
 </head>
 <body>
-<%--引入easyui的js文件begin--%>
-<link href="<%=path %>/js/easyui_full.css" rel="stylesheet" type="text/css">
-<link href="<%=path %>/js/iconfont/iconfont.css" rel="stylesheet" type="text/css">
-<link href="<%=path %>/js/theme.default/master.css" rel="stylesheet" type="text/css">
-<link href="<%=path %>/js/js/reset.min.css" rel="stylesheet" type="text/css">
-<link href="<%=path %>/js/icon.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="<%=path %>/js/js/jquery.min.js"></script>
-<script type="text/javascript" src="<%=path %>/js/iconfont/iconfont.js"></script>
-<script type="text/javascript" src="<%=path %>/js/js/jquery.easyui-1.5.1.min.js"></script>
-<script type="text/javascript" src="<%=path %>/js/js/insdep-extend.min.js"></script>
-<%--end--%>
+
 <table id="wtcheckee" border="1" bgcolor="#0099ff"></table>
 <div id="wtcheckaa">
     <a href="javascript:addOrEdit('add')" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">新增</a>
@@ -56,7 +58,16 @@
                     }
                 }},
                 {field:'memberphone',title:'手机号 ',width:52 },
-                {field:'memberidcard',title:'身份证号 ',width:52 }
+                {field:'memberidcard',title:'身份证号 ',width:52 },
+                {field:'wtttt',title:'操作',width:200,align:"center",
+                    formatter:function(value,row,index){
+                        if(row.memberflag==1){
+                            return  '<a class="easyui-linkbutton"  href="javascript:suo('+row.memberid+')">锁定</a>&nbsp;&nbsp;'
+                        }else if(row.memberflag==2){
+                            return  '<a class="easyui-linkbutton"   href="javascript:jie('+row.memberid+')">解锁</a>&nbsp;&nbsp;'
+
+                        }
+                    }},
             ]],
             //分页
             fit:true,
@@ -95,6 +106,37 @@
                 }else{
                     $.messager.alert("警告","删除失败！");
                 }
+            }
+        })
+    }
+</script>
+<script type="text/javascript">
+
+    function suo(memberid){
+        $.ajax({
+            url:"<%=request.getContextPath()%>/wt/Suo",
+            type:"post",
+            data:{"memberid":memberid},
+            dataType:"text",
+            success:function (addFlag){
+                $('#wtcheckee').datagrid('reload');
+            },
+            error:function (){
+                alert("修改出错");
+            }
+        })
+    }
+    function jie(memberid){
+        $.ajax({
+            url:"<%=request.getContextPath()%>/wt/Jie",
+            type:"post",
+            data:{"memberid":memberid},
+            dataType:"text",
+            success:function (addFlag){
+                $('#wtcheckee').datagrid('reload');
+            },
+            error:function (){
+                alert("修改出错");
             }
         })
     }
