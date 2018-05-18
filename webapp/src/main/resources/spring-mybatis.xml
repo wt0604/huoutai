@@ -79,7 +79,7 @@
 		<property name="mapperLocations" value="classpath:com/jk/mapper/*.xml"></property>-->
 
 		<!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
-		<property name="mapperLocations" value="classpath:mapper/*.xml" />
+		<property name="mapperLocations" value="classpath:mapper/**.xml" />
 
 	</bean>
 	<!-- 装配dao接口 -->
@@ -120,6 +120,9 @@
 			<tx:method name="*" propagation="SUPPORTS" />
 		</tx:attributes>
 	</tx:advice>
+
+	<context:component-scan base-package="com.jk.controller.zxt"></context:component-scan>
+	<aop:aspectj-autoproxy/>
 	<aop:config> 
 		<aop:pointcut id="transactionPointcut" expression="execution(* com.jk.*.service.impl.*.*(..))" />
 		<aop:advisor pointcut-ref="transactionPointcut" advice-ref="transactionAdvice" />
