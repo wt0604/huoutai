@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.dao.UserzxtDao">
+
+    <resultMap type="com.jk.pojo.User" id="resultuser">
+        <id column="u_id" property="u_id"/>
+        <result column="u_username" property="u_username"></result>
+        <result column="u_password" property="u_password"></result>
+        <result column="u_realname" property="u_realname"></result>
+        <result column="u_sex" property="u_sex"></result>
+        <result column="u_phone" property="u_phone"></result>
+        <result column="u_age" property="u_age"></result>
+        <result column="u_dept" property="u_dept"></result>
+        <result column="u_position" property="u_position"></result>
+    </resultMap>
+    <resultMap type="com.jk.pojo.Role" id="resultrole">
+        <id column="r_id" property="id"/>
+        <result column="r_name" property="name"></result>
+    </resultMap>
+
+        <resultMap type="com.jk.pojo.Power" id="resultpower">
+            <id column="id" property="id"/>
+            <result column="text" property="text"></result>
+            <result column="parentid" property="pid"></result>
+            <result column="icon" property="icon"></result>
+            <result column="url" property="url"></result>
+        </resultMap>
+
+    <!--查询用户数据个数-->
+    <select id="queryUserCount" resultMap="resultuser">
+        select * from user  where 1=1
+        limit  #{begin},#{end}
+    </select>
+
+    <!--查询用户-->
+    <select id="queryUserAllzxt" resultMap="resultuser">
+        select * from user u  where 1=1
+    </select>
+
+    <!--删除用户-->
+    <delete id="delUserById" parameterType="String">
+        delete from user where u_id in (${ids})
+    </delete>
+
+    <!--修改之根据id查询对象-->
+    <select id="toUpdateuserById" resultType="com.jk.pojo.User"  parameterType="Integer">
+        select * from user where u_id = #{id}
+    </select>
+
+    <!--新增用户-->
+    <insert id="addUserzxt" parameterType="com.jk.pojo.User">
+        insert into user(u_username,u_password,u_realname,u_sex,u_phone,u_age,u_dept,u_position) values(
+        #{u_username},
+        #{u_password},
+        #{u_realname},
+        #{u_sex},
+        #{u_phone},
+        #{u_age},
+        #{u_dept},
+        #{u_position})
+    </insert>
+
+    <!--修改用户-->
+    <update id="modifyUserzxt" parameterType="com.jk.pojo.User">
+        update user
+        set u_username = #{u_username},
+        u_password= #{u_password},
+        u_realname=#{u_realname},
+        u_sex=#{u_sex},
+        u_phone=#{u_phone},
+        u_age =#{u_age},
+        u_dept =#{u_dept},
+        u_position =#{u_position}
+        where u_id = #{u_id}
+    </update>
+
+    <!--查询每一个用户所对应的角色-->
+    <select id="getResourcesReList"  parameterType="com.jk.pojo.User" resultType="java.util.LinkedHashMap">
+        SELECT * FROM
+        role tr,POWER tt,role_power rt,user_role ur
+        WHERE tr.r_id=rt.r_id AND tt.id=rt.p_id AND ur.r_id=tr.r_id AND ur.u_id=#{u_id,jdbcType=INTEGER}
+    </select>
+
+    <!--查询所有的角色-->
+    <select id="userroles" resultMap="resultrole">
+        SELECT * FROM role
+    </select>
+
+    <!--删除用户之前的角色-->
+    <delete id="deleteUserRole" parameterType="java.lang.Integer">
+        delete from user_role where u_id=#{u_id}
+    </delete>
+
+    <!--给用户重新赋角色-->
+    <insert id="addUserRole" parameterType="java.util.List">
+        insert into user_role (u_id,r_id)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.u_id},#{item.r_id})
+        </foreach>
+    </insert>
+
+    <!--查询角色数据个数-->
+    <select id="queryRoleCount" resultType="long">
+        select count(*) from role where 1=1
+    </select>
+
+    <!--查询角色数据个-->
+    <select id="queryRoleList" resultMap="resultrole" parameterType="Integer" >
+        select * from role where 1=1
+        limit #{start},#{rows}
+    </select>
+
+    <!--查询每个角色的权限-->
+    <select id="queryRolePower" parameterType="Integer" resultMap="resultpower">
+
+            SELECT * FROM role_power rt,POWER tt WHERE rt.p_id= tt.id AND rt.r_id=#{r_id}
+
+    </select>
+
+    <!--查询所有权限-->
+    <select id="selectPowerList" parameterType="com.jk.pojo.Power" resultMap="resultpower">
+        select * from power
+
+    </select>
+    <!--删除角色的所有权限-->
+    <delete id="deletePowerRole" parameterType="Integer">
+
+        delete from role_power where r_id=#{r_id}
+    </delete>
+
+    <!--重新给角色赋权限-->
+    <insert id="addPowerRole" parameterType="java.util.List">
+
+        insert into role_power (r_id,p_id) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.r_id},#{item.p_id})
+        </foreach>
+
+    </insert>
+</mapper>

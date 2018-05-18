@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.dao.MaxDao">
+
+    <resultMap type="com.jk.pojo.Maxs" id="maxd">
+        <id column="maxtypeid" property="maxtypeid"/>
+        <result column="maxtypename" property="maxtypename"></result>
+    </resultMap>
+
+    <select id="queryMaxs" resultMap="maxd">
+        select * from t_max m where 1=1
+        limit  #{begin},#{end}
+    </select>
+
+    <select id="queryMaxsAll" resultMap="maxd">
+        select * from t_max m  where 1=1
+    </select>
+
+    <delete id="deleteMax">
+        delete from t_max where maxtypeid = #{str}
+    </delete>
+
+    <select id="getMaxById" resultType="com.jk.pojo.Maxs"  parameterType="Integer">
+        select * from t_max where maxtypeid = #{id}
+    </select>
+
+    <!--查询小类所属大类-->
+    <select id="queryMaxList" resultType="com.jk.pojo.Maxs"  parameterType="Integer">
+        select maxtypeid,maxtypename from t_max
+    </select>
+
+    <insert id="addMaxs" parameterType="com.jk.pojo.Maxs">
+        insert into t_max(maxtypename) values(
+        #{maxtypename})
+    </insert>
+
+    <update id="modifyMaxs" parameterType="com.jk.pojo.Maxs">
+        update t_max
+        set maxtypename = #{maxtypename}
+
+        where maxtypeid = #{maxtypeid}
+    </update>
+</mapper>

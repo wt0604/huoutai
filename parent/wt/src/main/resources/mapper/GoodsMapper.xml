@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.jk.dao.GzwDao" >
+  <resultMap type="com.jk.pojo.Goods"  id="goods">
+    <id column="goodsid" property="goodsid" />
+    <result column="goodsname" property="goodsname" />
+    <result column="goodsprice" property="goodsprice"  />
+    <result column="goodsimg" property="goodsimg" />
+    <result column="goodsstate" property="goodsstate"/>
+    <result column="runum" property="runum" />
+    <result column="rudate" property="rudate"/>
+    <result column="chunum" property="chunum" />
+    <result column="chudate" property="chudate" />
+    <result column="kucun" property="kucun"  />
+    <result column="jinjia" property="jinjia" />
+    <result column="goodstype" property="goodstype" />
+    <result column="mintypeid" property="mintypeid"  />
+    <result column="jinjiaB" property="jinjiaB" />
+    <result column="jinjiaE" property="jinjiaE"  />
+    <result column="rudateB" property="rudateB"  />
+    <result column="rudateE" property="rudateE"  />
+    <result column="mintypename" property="mintypename"  />
+    <result column="maxtypename" property="maxtypename"  />
+  </resultMap>
+
+  <resultMap type="com.jk.pojo.Maxs"  id="max">
+    <id column="maxtypeid" property="maxtypeid" />
+    <result column="maxtypename" property="maxtypename" />
+  </resultMap>
+
+  <resultMap type="com.jk.pojo.Mins"  id="min">
+    <id column="mintypeid" property="mintypeid" />
+    <result column="mintypename" property="mintypename" />
+    <result column="maxtypeid" property="maxtypeid" />
+    <result column="maxtypename" property="maxtypename" />
+  </resultMap>
+
+  <select id="queryGoodsInfoWhere" resultMap="goods">
+      SELECT t1.*,t2.`mintypename`,t3.`maxtypename` FROM goods t1,t_min t2,t_max t3 WHERE t1.`mintypeid` = t2.`mintypeid` AND t2.`maxtypeid` = t3.`maxtypeid` AND 1 = 1
+    <if test="goods != null">
+      <if test=" goods.goodsname != null and goods.goodsname != '' ">
+        AND goodsname LIKE '%${goods.goodsname}%'
+      </if>
+      <if test=" goods.jinjiaB != null ">
+        AND jinjia &gt;= #{goods.jinjiaB}
+      </if>
+      <if test=" goods.jinjiaE != null ">
+        AND jinjia &lt;= #{goods.jinjiaE}
+      </if>
+      <if test=" goods.rudateB != null and goods.rudateB != '' ">
+        AND rudate &gt;= #{goods.rudateB}
+      </if>
+      <if test=" goods.rudateE != null and goods.rudateE != '' ">
+        AND rudate &lt;= #{goods.rudateE}
+      </if>
+    </if>
+  </select>
+  
+  <select id="queryGoodsInfoPage" resultMap="goods">
+      SELECT t1.*,t2.`mintypename`,t3.`maxtypename` FROM goods t1,t_min t2,t_max t3 WHERE t1.`mintypeid` = t2.`mintypeid` AND t2.`maxtypeid` = t3.`maxtypeid` AND 1 = 1
+    <if test="goods != null">
+      <if test=" goods.goodsname != null and goods.goodsname != '' ">
+        AND goodsname LIKE '%${goods.goodsname}%'
+      </if>
+      <if test=" goods.jinjiaB != null ">
+        AND jinjia &gt;= #{goods.jinjiaB}
+      </if>
+      <if test=" goods.jinjiaE != null ">
+        AND jinjia &lt;= #{goods.jinjiaE}
+      </if>
+      <if test=" goods.rudateB != null and goods.rudateB != '' ">
+        AND rudate &gt;= #{goods.rudateB}
+      </if>
+      <if test=" goods.rudateE != null and goods.rudateE != '' ">
+        AND rudate &lt;= #{goods.rudateE}
+      </if>
+    </if>
+    LIMIT #{begin},#{end}
+  </select>
+
+  <insert id="addGoodsInfo" parameterType="com.jk.pojo.Goods">
+    INSERT INTO `six`.`goods`
+            (
+             `goodsname`,
+             `goodsprice`,
+             `goodsimg`,
+             `goodsstate`,
+             `runum`,
+             `rudate`,
+             `kucun`,
+             `jinjia`,
+             `mintypeid`,
+             `maxtypeid`)
+        VALUES (
+                #{goodsname},
+                #{goodsprice},
+                #{goodsimg},
+                #{goodsstate},
+                #{runum},
+                #{rudate},
+                #{kucun},
+                #{jinjia},
+                #{mintypeid},
+                #{maxtypeid})
+  </insert>
+
+  <update id="updateGoodsInfo" parameterType="com.jk.pojo.Goods">
+      UPDATE `six`.`goods`
+      SET
+        `goodsname` = #{goodsname},
+        `goodsprice` = #{goodsprice},
+        `goodsimg` = #{goodsimg},
+        `goodsstate` = #{goodsstate},
+        `runum` = #{runum},
+        `rudate` = #{rudate},
+        `chunum` = #{chunum},
+        `chudate` = #{chudate},
+        `kucun` = #{kucun},
+        `jinjia` = #{jinjia},
+        `mintypeid` = #{mintypeid},
+        `maxtypeid` = #{maxtypeid}
+      WHERE `goodsid` = #{goodsid}
+  </update>
+
+  <select id="queryGoodsById" parameterType="Integer" resultType="com.jk.pojo.Goods">
+    SELECT * FROM goods WHERE goodsid = #{id}
+  </select>
+
+  <delete id="deleteGoodsInfo">
+    DELETE FROM `1711d4`.`goods` WHERE `goodsid` in (${ids})
+  </delete>
+
+    <select id="getGoodsInfo" resultMap="goods">
+      SELECT * FROM goods WHERE goodsstate = 2
+    </select>
+
+    <select id="getEcharts" resultMap="goods" parameterType="String">
+      SELECT t1.`chunum`,t1.`chudate`,t1.`kucun` FROM goods t1,t_max t2 WHERE t1.`maxtypeid` = t2.`maxtypeid` AND t2.`maxtypename` = #{maxtypename} AND YEARWEEK(DATE_FORMAT(t1.`chudate`,'%Y-%m-%d')) = YEARWEEK(NOW())-1 ORDER BY t1.`chudate`
+    </select>
+
+    <select id="getMaxType" resultMap="max">
+      SELECT * FROM t_max
+    </select>
+
+    <select id="getMinType" resultMap="min" parameterType="Integer">
+      SELECT * FROM t_min t1 WHERE t1.`maxtypeid` = #{maxid}
+    </select>
+
+    <select id="queryShangById" parameterType="Integer" resultType="com.jk.pojo.Goods">
+      SELECT * FROM goods WHERE goodsid = #{id}
+    </select>
+
+    <update id="updateChuku">
+      UPDATE `six`.`goods`
+        SET
+          `chunum` = #{num} + #{chunum},
+          `chudate` = #{chudate},
+          `kucun` = `kucun` - #{chunum}
+        WHERE `goodsid` = #{goodsid}
+    </update>
+
+    <select id="queryKuCun" parameterType="Integer" resultType="com.jk.pojo.Goods">
+      SELECT * FROM goods t1 WHERE t1.goodsid = #{goodsid}
+    </select>
+
+    <update id="updateBuhuo">
+      UPDATE `six`.`goods`
+        SET
+          `runum` = `runum` + #{runum},
+          `rudate` = #{rudate},
+          `kucun` = `kucun` + #{runum}
+        WHERE `goodsid` = #{goodsid};
+    </update>
+
+</mapper>

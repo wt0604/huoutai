@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.dao.OrderDao">
+
+    <select id="queryOrder" resultType="java.lang.Integer">
+        select count(*) from  y_order o,t_max a,t_min i where o.goodsid=a.maxTypeId
+        and o.goodsname=i.minTypeId
+        <if test="oderTable.numberName!=null and oderTable.numberName!='' ">
+            and o.numberName=#{oderTable.numberName}
+        </if>
+        <if test="oderTable.orDateStart!=null and oderTable.orDateStart!=''">
+            and o.orDate &gt;= #{oderTable.orDateStart}
+        </if>
+        <if test="oderTable.orDateEnd!=null and oderTable.orDateEnd!='' ">
+            and o.orDate &lt;= #{oderTable.orDateEnd}
+        </if>
+    </select>
+
+    <select id="queryOrderPage" resultType="com.jk.pojo.OrderTable">
+        SELECT o.orId orId,o.numberName numberName,a.maxTypeName goodsids,i.minTypeName goodsnames,o.orNumber orNumber,o.goodsprice goodsprice,o.orAllPay orAllPay,o.orStatus orStatus,o.orDate orDate,o.orAddress orAddress FROM y_order o,t_max a,t_min i where o.goodsid=a.maxTypeId
+        and o.goodsname=i.minTypeId
+
+        <if test="oderTable.numberName!=null and oderTable.numberName!='' ">
+            and o.numberName=#{oderTable.numberName}
+        </if>
+        <if test="oderTable.orDateStart!=null and oderTable.orDateStart!=''">
+            and o.orDate &gt;= #{oderTable.orDateStart}
+        </if>
+        <if test="oderTable.orDateEnd!=null  and oderTable.orDateEnd!=''">
+            and o.orDate &lt;= #{oderTable.orDateEnd}
+        </if>
+        ORDER BY o.orDate desc LIMIT #{startIndex},#{endIndex}
+    </select>
+
+    <select id="queryMinType" resultType="com.jk.pojo.Mingoods">
+        SELECT * FROM t_min  where maxTypeId=#{maxId}
+    </select>
+    <select id="queryMaxType" resultType="com.jk.pojo.Maxgoods">
+        SELECT * FROM t_max
+    </select>
+    <select id="huiOrder" resultType="com.jk.pojo.OrderTable">
+         SELECT o.orId orId,o.numberName numberName,a.maxTypeName goodsids,i.minTypeName goodsnames,o.orNumber orNumber,o.goodsprice goodsprice,o.orAllPay orAllPay,o.orStatus orStatus,o.orDate orDate,o.orAddress orAddress FROM y_order o,t_max a,t_min i where o.goodsid=a.maxTypeId
+        and o.goodsname=i.minTypeId and orId=#{orId}
+    </select>
+    <select id="addMoneyGetAllPay" resultType="com.jk.pojo.OrderTable">
+        SELECT * FROM y_order where orId=#{orId}
+    </select>
+    <select id="getGoodsName" resultType="com.jk.pojo.Mingoods">
+        SELECT * FROM t_min where minTypeId=#{ss}
+    </select>
+    <select id="exportInfo" resultType="com.jk.pojo.OrderTable">
+        SELECT * FROM y_order where orStatus=4
+    </select>
+
+    <select id="testEcharYi" resultType="java.lang.Integer">
+        SELECT count(*) FROM y_order where orStatus=2
+    </select>
+    <select id="testEcharWei" resultType="java.lang.Integer">
+        SELECT count(*) FROM y_order where orStatus=1
+    </select>
+    <select id="testEcharWan" resultType="java.lang.Integer">
+        SELECT count(*) FROM y_order where orStatus=3
+    </select>
+    <select id="testEcharTi" resultType="java.lang.Integer">
+        SELECT count(*) FROM y_order where orStatus=4
+    </select>
+
+    <select id="getjinprice" resultType="java.lang.Double">
+
+       SELECT jinjia FROM goods WHERE mintypeid=#{ss} AND rudate=(SELECT MAX(rudate) FROM goods WHERE mintypeid=#{ss})
+
+    </select>
+
+
+    <!--//批量删的mapper层代码sql-->
+    <delete id="orderDeleById">
+        delete from y_order where orId in (${ids})
+    </delete>
+    <delete id="orderDeleTuiById">
+        delete from y_order where orId=#{orId}
+    </delete>
+
+    <insert id="orderAdd" parameterType="com.jk.pojo.OrderTable" >
+        insert into y_order(numberName,goodsid, goodsname,orNumber,goodsprice,orAllPay,orStatus,orDate,orAddress)
+        values(#{numberName},#{goodsid},#{goodsname},#{orNumber},#{goodsprice},#{orAllPay},#{orStatus}
+        ,#{orDate},#{orAddress})
+    </insert>
+    <insert id="addMoneyPay2" parameterType="com.jk.pojo.Account"  >
+        INSERT INTO account (cwdate,goodsname,goodsprice,jinprice,membernum,profit,username,echa)
+    values(#{cwdate},#{goodsname},#{goodsprice},#{jinprice},#{membernum},#{profit},#{username},#{echa})
+
+       <!-- INSERT INTO `three`.`account`
+            (
+             `cwdate`,
+             `goodsname`,
+             `goodsprice`,
+             `jinprice`,
+             `membernum`,
+             `profit`,
+             `username`,
+             `echa`)
+        VALUES (
+                #{cwdate},
+                #{goodsname},
+                #{money},
+                #{jinprice},
+                #{membernum},
+                #{profit},
+                #{username},
+                #{echa})
+
+-->
+    </insert>
+    <update id="updateOrder">
+        update y_order set numberName=#{orderTable.numberName}, goodsid=#{orderTable.goodsid},
+        goodsname=#{orderTable.goodsname},orNumber=#{orderTable.orNumber},goodsprice=#{orderTable.goodsprice}
+        ,orAllPay=#{orderTable.orAllPay},orStatus=#{orderTable.orStatus},orDate=#{orderTable.orDate},orAddress=#{orderTable.orAddress}
+        where orId=#{orderTable.orId}
+    </update>
+    <update id="updateStatus">
+        update y_order set orStatus=2 where orId=#{orId}
+    </update>
+    <update id="updateStatusPay">
+        update y_order set orStatus=4 where orId=#{orId}
+    </update>
+
+</mapper>

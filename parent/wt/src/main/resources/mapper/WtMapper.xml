@@ -54,4 +54,17 @@
         memberidcard =#{memberidcard}
         where memberid = #{memberid}
     </update>
+    <update id="Suo" parameterType="Integer">
+        update t_member
+        set
+        memberflag=2
+        where memberid = #{memberid}
+    </update>
+    <update id="Jie" parameterType="Integer">
+        update t_member
+        set
+        memberflag=1
+        where memberid = #{memberid}
+    </update>
+
 </mapper>

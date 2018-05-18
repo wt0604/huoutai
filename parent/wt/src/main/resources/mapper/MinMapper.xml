@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.dao.MinDao">
+
+    <resultMap type="com.jk.pojo.Mins" id="mind">
+        <id column="mintypeid" property="mintypeid"/>
+        <result column="mintypename" property="mintypename"></result>
+        <result column="maxtypeid" property="maxtypeid"></result>
+        <result column="maxtypename" property="maxtypename"></result>
+    </resultMap>
+
+    <!--分页查询-->
+    <select id="queryMins" resultMap="mind">
+        SELECT tm.*,ma.maxtypename FROM t_min tm
+        LEFT JOIN t_max ma ON tm.maxtypeid=ma.maxtypeid
+        WHERE 1=1
+        limit  #{begin},#{end}
+    </select>
+
+    <!--查询-->
+    <select id="queryMinsAll" resultMap="mind">
+        select * from t_min m  where 1=1
+    </select>
+
+    <!--查询商品时加载所属小类-->
+    <select id="queryMinList" resultMap="mind">
+        select * from t_min
+    </select>
+
+    <!--修改-->
+    <select id="getMinById" resultType="com.jk.pojo.Mins"  parameterType="Integer">
+        select * from t_min where mintypeid = #{id}
+    </select>
+
+    <!--新增-->
+    <insert id="addMins" parameterType="com.jk.pojo.Mins">
+        insert into t_min(mintypename,maxtypeid) values(
+        #{mintypename},#{maxtypeid})
+    </insert>
+
+    <!--修改-->
+    <update id="modifyMins" parameterType="com.jk.pojo.Mins">
+        update t_min
+        set mintypename = #{mintypename},
+            maxtypeid = #{maxtypeid}
+
+        where mintypeid = #{mintypeid}
+    </update>
+
+    <!--删除-->
+    <delete id="deleteMin">
+        delete from t_min where mintypeid = #{str}
+    </delete>
+</mapper>

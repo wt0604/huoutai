@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.dao.XyDao">
+
+
+
+    <select id="getTotalAcc" resultType="java.lang.Integer">
+        SELECT count(1) FROM `account`ac WHERE
+        1=1
+
+        <if test="emp.goodsname!=null and ''!=emp.goodsname">
+            AND   ac.`goodsname` LIKE CONCAT('%',CONCAT(#{emp.goodsname},'%'))
+        </if>
+        <if test="emp.membernum!=null and 0!=emp.membernum">
+            AND ac.`membernum`=#{emp.membernum}
+        </if>
+        <if test="emp.cwdate!=null and ''!=emp.cwdate">
+            AND ac.`cwdate` = #{emp.cwdate}
+        </if>
+        <if test="emp.username!=null and ''!=emp.username">
+            AND ac.`username` = #{emp.username}
+        </if>
+
+    </select>
+
+
+
+    <select id="queryAcc" resultType="java.util.Map">
+
+    SELECT  SUM(ac.`jinprice`) jin,SUM(ac.`goodsprice`) shang,SUM(ac.`profit`) ying,ac.`echa` FROM `account`ac GROUP BY ac.`echa`
+    </select>
+
+
+
+
+
+
+
+
+    <select id="queryAccount" parameterType = "com.jk.pojo.Account" resultType="java.util.Map">
+        SELECT * FROM `account`ac WHERE
+       1=1
+        <if test="emp.goodsname!=null and ''!=emp.goodsname">
+            AND  ac.`goodsname` LIKE CONCAT('%',CONCAT(#{emp.goodsname},'%'))
+        </if>
+        <if test="emp.membernum!=null and 0!=emp.membernum">
+            AND ac.`membernum`=#{emp.membernum}
+        </if>
+        <if test="emp.cwdate!=null and ''!=emp.cwdate">
+            AND ac.`cwdate` = #{emp.cwdate}
+        </if>
+        <if test="emp.username!=null and ''!=emp.username">
+            AND ac.`username` = #{emp.username}
+        </if>
+
+
+
+        LIMIT #{page}, #{rows};
+
+    </select>
+
+    <delete id="del" >
+
+		DELETE
+		FROM `six`.`account`
+		WHERE `cwid` = #{id};
+
+
+	</delete>
+
+
+
+
+    <insert id="addAccount">
+
+        INSERT INTO `six`.`account`
+            (
+             `cwdate`,
+             `goodsname`,
+             `goodsprice`,
+             `jinprice`,
+             `membernum`,
+             `profit`,
+             `username`)
+VALUES (
+        #{cwdate},
+         #{goodsname},
+        #{goodsprice},
+         #{jinprice},
+        #{membernum},
+        #{profit},
+         #{username});
+
+	</insert>
+
+
+
+
+</mapper>

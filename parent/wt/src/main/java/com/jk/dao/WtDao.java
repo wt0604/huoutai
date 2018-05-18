@@ -17,4 +17,8 @@ public interface WtDao {
     void modifyMember(Member member);
 
     void addMember(Member member);
+
+    void Suo(Integer memeberid);
+
+    void Jie(Integer memeberid);
 }

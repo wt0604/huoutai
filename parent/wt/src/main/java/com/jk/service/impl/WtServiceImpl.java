@@ -41,4 +41,14 @@ public class WtServiceImpl  implements WtService{
     public void addMember(Member member) {
         wtDao.addMember(member);
     }
+
+    @Override
+    public void Suo(Integer memeberid) {
+        wtDao.Suo(memeberid);
+    }
+
+    @Override
+    public void Jie(Integer memeberid) {
+        wtDao.Jie(memeberid);
+    }
 }

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.dao.ShangDao">
+
+    <resultMap type="com.jk.pojo.Shang" id="shangs">
+        <id column="goodsid" property="goodsid"/>
+        <result column="goodsname" property="goodsname"></result>
+        <result column="goodsimg" property="goodsimg"></result>
+        <result column="goodsimg1" property="goodsimg1"></result>
+        <result column="goodsimg2" property="goodsimg2"></result>
+        <result column="goodsimg3" property="goodsimg3"></result>
+        <result column="goodsimg4" property="goodsimg4"></result>
+        <result column="shangdate" property="shangdate"></result>
+        <result column="goodsprice" property="goodsprice"></result>
+        <result column="zhuangtai" property="zhuangtai"></result>
+        <result column="chunum" property="chunum"></result>
+        <result column="mintypeid" property="mintypeid"></result>
+        <result column="goodsinfo" property="goodsinfo"></result>
+        <result column="goodscolor" property="goodscolor"></result>
+        <result column="goodsgg" property="goodsgg"></result>
+        <result column="mintypename" property="mintypename"></result>
+    </resultMap>
+
+    <!--分页查询-->
+    <select id="queryShang" resultMap="shangs">
+         SELECT shang.*,mi.mintypename FROM t_shang shang
+   		 LEFT JOIN t_min mi ON shang.mintypeid = mi.mintypeid
+         where 1=1
+        <if test="shang.goodsname!=null and ''!=shang.goodsname">
+            AND goodsname LIKE '%${shang.goodsname}%'
+        </if>
+         limit  #{begin},#{end}
+    </select>
+
+    <!--查询-->
+    <select id="queryShangAll" resultMap="shangs">
+        select * from t_shang  where 1=1
+        <if test="shang.goodsname!=null and ''!=shang.goodsname">
+            AND goodsname LIKE '%${shang.goodsname}%'
+        </if>
+    </select>
+
+    <!--导出-->
+    <select id="exportList" resultMap="shangs">
+        select * from six.t_shang
+    </select>
+
+    <!--删除-->
+    <delete id="deleteShang">
+        delete from six.t_shang where goodsid = #{str}
+    </delete>
+
+    <select id="getShangById" resultType="com.jk.pojo.Shang"  parameterType="Integer">
+        select * from six.t_shang where goodsid = #{id}
+    </select>
+
+    <!--新增-->
+    <insert id="addShang" parameterType="com.jk.pojo.Shang">
+        INSERT INTO six.t_shang
+            (
+             goodsname,
+             goodsimg,
+             goodsimg1,
+             goodsimg2,
+             goodsimg3,
+             goodsimg4,
+             shangdate,
+             goodsprice,
+             zhuangtai,
+             chunum,
+             mintypeid,
+             goodsinfo,
+             goodscolor,
+             goodsgg)
+        VALUES (
+                #{goodsname},
+                #{goodsimg},
+                #{goodsimg1},
+                #{goodsimg2},
+                #{goodsimg3},
+                #{goodsimg4},
+                #{shangdate},
+                #{goodsprice},
+                #{zhuangtai},
+                #{chunum},
+                #{mintypeid},
+                #{goodsinfo},
+                #{goodscolor},
+                #{goodsgg})
+    </insert>
+    <!--修改-->
+    <update id="modifyShang" parameterType="com.jk.pojo.Shang">
+        UPDATE six.t_shang
+            SET
+             goodsname= #{goodsname},
+             goodsimg= #{goodsimg},
+             goodsimg1= #{goodsimg1},
+             goodsimg2= #{goodsimg2},
+             goodsimg3= #{goodsimg3},
+             goodsimg4= #{goodsimg4},
+             shangdate= #{shangdate},
+             goodsprice= #{goodsprice},
+             zhuangtai= #{zhuangtai},
+             chunum= #{chunum},
+             mintypeid= #{mintypeid},
+             goodsinfo= #{goodsinfo},
+             goodscolor= #{goodscolor},
+             goodsgg= #{goodsgg}
+            WHERE goodsid = #{goodsid}
+    </update>
+    <update id="Ting" parameterType="Integer">
+        update six.t_shang
+        set
+        zhuangtai= 2
+        where goodsid = #{goodsid}
+    </update>
+    <update id="Kai" parameterType="Integer">
+        update six.t_shang
+        set
+        zhuangtai= 1
+        where goodsid = #{goodsid}
+    </update>
+</mapper>
